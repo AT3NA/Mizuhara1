@@ -1,21 +1,16 @@
-/**
-   * Create By Dika Ardnt.
-   * Contact Me on wa.me/6288292024190
-   * Follow https://github.com/DikaArdnt
-*/
-
 require('./config')
-const { default: hisokaConnect, useSingleFileAuthState, DisconnectReason, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto } = require("@adiwajshing/baileys")
+require('./brain.js')
+const { default: arusConnect, useSingleFileAuthState, DisconnectReason, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto } = require("@adiwajshing/baileys")
 const { state, saveState } = useSingleFileAuthState(`./${sessionName}.json`)
 const pino = require('pino')
 const fs = require('fs')
 const chalk = require('chalk')
+const CFonts=require('cfonts')
 const FileType = require('file-type')
 const path = require('path')
 const PhoneNumber = require('awesome-phonenumber')
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/exif')
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/myfunc')
-
 global.api = (name, path = '/', query = {}, apikeyqueryname) => (name in global.APIs ? global.APIs[name] : name) + path + (query || apikeyqueryname ? '?' + new URLSearchParams(Object.entries({ ...query, ...(apikeyqueryname ? { [apikeyqueryname]: global.APIKeys[name in global.APIs ? global.APIs[name] : name] } : {}) })) : '')
 
 const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) })
@@ -31,8 +26,13 @@ const getVersionWaweb = () => {
     return version
 }
 
-async function startIchika() {
-    const ichi = hisokaConnect({
+async function startArus() {
+    CFonts.say('MIZUHARA\nBY\nARUS', {
+        font: 'block',
+        align: 'center',
+        gradient: ['blue', 'magenta']
+        })
+    const arus = arusConnect({
         logger: pino({ level: 'silent' }),
         printQRInTerminal: true,
         browser: ['Mizuhara','Safari','1.0.0'],
@@ -40,98 +40,96 @@ async function startIchika() {
         version: getVersionWaweb() || [2, 2204, 13]
     })
 
-    store.bind(ichi.ev)
+    store.bind(arus.ev)
 
-    ichi.ws.on('CB:call', async (json) => {
+    arus.ws.on('CB:call', async (json) => {
     const callerId = json.content[0].attrs['call-creator']
     if (json.content[0].tag == 'offer') {
-    let pa7rick = await ichi.sendContact(callerId, global.owner)
-  ichi.sendMessage(callerId, { text: `Automatic system block!\nDon't call bot!\nPlease contact owner to open it !`}, { quoted : pa7rick })
+    let pa7rick = await arus.sendContact(callerId, global.owner)
+  arus.sendMessage(callerId, { text: `Automatic system block!\nDon't call bot!\nPlease contact owner to open it !`}, { quoted : pa7rick })
     await sleep(8000)
-    await ichi.updateBlockStatus(callerId, "block")
+    await arus.updateBlockStatus(callerId, "block")
     }
     })
 
-    ichi.ev.on('messages.upsert', async chatUpdate => {
+    arus.ev.on('messages.upsert', async chatUpdate => {
         //console.log(JSON.stringify(chatUpdate, undefined, 2))
         try {
         mek = chatUpdate.messages[0]
         if (!mek.message) return
         mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
         if (mek.key && mek.key.remoteJid === 'status@broadcast') return
-        if (!ichi.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
+        if (!arus.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
         if (mek.key.id.startsWith('BAE5') && mek.key.id.length === 16) return
-        m = smsg(ichi, mek, store)
-        require("./brain.js")(ichi, m, chatUpdate, store)
+        m = smsg(arus, mek, store)
+        require("./brain.js")(arus, m, chatUpdate, store)
         } catch (err) {
             console.log(err)
         }
     })
 
-   ichi.ev.on('group-participants.update', async (grp) => {
+   arus.ev.on('group-participants.update', async (grp) => {
         console.log(grp)
+let wel=gp.get(`${m.chat}.welc`)
+let wlc=(wel)?wel:[]
+if(wlc.includes(grp.id)){
         try {
-            let metadata = await ichi.groupMetadata(grp.id)
+            let metadata = await arus.groupMetadata(grp.id)
             let participants = grp.participants
             let mem = grp.participants[0]
-        
+      
             for (let num of participants) {
                 // Get Profile Picture User
                 try {
-                    ppuser = await ichi.profilePictureUrl(num, 'image')
+                    ppuser = await arus.profilePictureUrl(num, 'image')
                 } catch {
                     ppuser = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
                 }
 
                 // Get Profile Picture Group
                 try {
-                    ppgroup = await ichi.profilePictureUrl(grp.id, 'image')
+                    ppgroup = await arus.profilePictureUrl(grp.id, 'image')
                 } catch {
                     ppgroup = 'https://i0.wp.com/www.gambarunik.id/wp-content/uploads/2019/06/Top-Gambar-Foto-Profil-Kosong-Lucu-Tergokil-.jpg'
                 }
 
-                if (grp.action == 'add'&& mem.includes(ichi.user.jid)) {
+                if (grp.action == 'add'&& mem.includes(arus.user.jid)) {
                     const des=`
-Welcome to  *${metadata.subject}*  
-
+🎗️ *Welcome to*  *${metadata.subject}*🎗️  
 *@${num.split('@')[0]}*
         
-Dont forget to follow the rules!!!Enjoy with us....
-        
-*Group Description:*
+🎋*Group Description:*
         
 ${metadata.desc}                    
                     `
-                    ichi.sendMessage(grp.id, { image: { url: ppgroup }, contextInfo: { mentionedJid: [num] }, caption: des })
+                    arus.sendMessage(grp.id, { image: { url: ppgroup }, contextInfo: { mentionedJid: [num] }, caption: des })
                 } 
 
 
                 
-if (grp.action == 'add'&& !mem.includes(ichi.user.jid)) {
+if (grp.action == 'add'&& !mem.includes(arus.user.jid)) {
                     const des=`
-Welcome to  *${metadata.subject}*  
-
+🎗️*Welcome to*  *${metadata.subject}*🎗️  
 *@${num.split('@')[0]}*
         
-Dont forget to follow the rules!!!Enjoy with us....
+🎋 *Group Description:*
         
-*Group Description:*
-        
-${metadata.desc}                    
+${metadata.desc}                     
                     `
-                    ichi.sendMessage(grp.id, { image: { url: ppgroup }, contextInfo: { mentionedJid: [num] }, caption: des })
+                    arus.sendMessage(grp.id, { image: { url: ppgroup }, contextInfo: { mentionedJid: [num] }, caption: des })
                 }                     
          if (grp.action == 'remove') {
-                    ichi.sendMessage(grp.id, { image: { url: ppuser }, contextInfo: { mentionedJid: [num] }, caption: `@${num.split("@")[0]} Leaving To ${metadata.subject}` })
+                    arus.sendMessage(grp.id, { image: { url: ppuser }, contextInfo: { mentionedJid: [num] }, caption: `@${num.split("@")[0]} Leaving from ${metadata.subject}` })
                 }
             }
         } catch (err) {
             console.log(err)
         }
+    }
     })
 	
     // Setting
-    ichi.decodeJid = (jid) => {
+    arus.decodeJid = (jid) => {
         if (!jid) return jid
         if (/:\d+@/gi.test(jid)) {
             let decode = jidDecode(jid) || {}
@@ -139,55 +137,55 @@ ${metadata.desc}
         } else return jid
     }
     
-    ichi.ev.on('contacts.update', update => {
+    arus.ev.on('contacts.update', update => {
         for (let contact of update) {
-            let id = ichi.decodeJid(contact.id)
+            let id = arus.decodeJid(contact.id)
             if (store && store.contacts) store.contacts[id] = { id, name: contact.notify }
         }
     })
 
-    ichi.getName = (jid, withoutContact  = false) => {
-        id = ichi.decodeJid(jid)
-        withoutContact = ichi.withoutContact || withoutContact 
+    arus.getName = (jid, withoutContact  = false) => {
+        id = arus.decodeJid(jid)
+        withoutContact = arus.withoutContact || withoutContact 
         let v
         if (id.endsWith("@g.us")) return new Promise(async (resolve) => {
             v = store.contacts[id] || {}
-            if (!(v.name || v.subject)) v = ichi.groupMetadata(id) || {}
+            if (!(v.name || v.subject)) v = arus.groupMetadata(id) || {}
             resolve(v.name || v.subject || PhoneNumber('+' + id.replace('@s.whatsapp.net', '')).getNumber('international'))
         })
         else v = id === '0@s.whatsapp.net' ? {
             id,
             name: 'WhatsApp'
-        } : id === ichi.decodeJid(ichi.user.id) ?
-            ichi.user :
+        } : id === arus.decodeJid(arus.user.id) ?
+            arus.user :
             (store.contacts[id] || {})
             return (withoutContact ? '' : v.name) || v.subject || v.verifiedName || PhoneNumber('+' + jid.replace('@s.whatsapp.net', '')).getNumber('international')
     }
     
-    ichi.sendContact = async (jid, kon, quoted = '', opts = {}) => {
+    arus.sendContact = async (jid, kon, quoted = '', opts = {}) => {
 	let list = []
 	for (let i of kon) {
 	    list.push({
-	    	displayName: await ichi.getName(i + '@s.whatsapp.net'),
-	    	vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await ichi.getName(i + '@s.whatsapp.net')}\nFN:${await ichi.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:okeae2410@gmail.com\nitem2.X-ABLabel:Email\nitem3.URL:https://instagram.com/cak_haho\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;Indonesia;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`
+	    	displayName: await arus.getName(i + '@s.whatsapp.net'),
+	    	vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await arus.getName(i + '@s.whatsapp.net')}\nFN:${await arus.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Phone\nitem2.EMAIL;type=INTERNET:arusbots@gmail.com\nitem2.X-ABLabel:Email\nitem3.URL:https://instagram.com/riki_4932\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;India;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`
 	    })
 	}
-	ichi.sendMessage(jid, { contacts: { displayName: `${list.length} contact`, contacts: list }, ...opts }, { quoted })
+	arus.sendMessage(jid, { contacts: { displayName: `${list.length} contact`, contacts: list }, ...opts }, { quoted })
     }
 	
-    ichi.public = true
+    arus.public = true
 
-    ichi.serializeM = (m) => smsg(ichi, m, store)
+    arus.serializeM = (m) => smsg(arus, m, store)
 
-    ichi.ev.on('connection.update', async (update) => {
+    arus.ev.on('connection.update', async (update) => {
         const { connection, lastDisconnect } = update
         if (connection === 'close') {
-            lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? startIchika() : console.log('Conneting...')
+            lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut ? startArus() : console.log('Conneting...')
         }
         console.log('Connection...', update)
     })
 
-    ichi.ev.on('creds.update', saveState)
+    arus.ev.on('creds.update', saveState)
 
     // Add Other
     /** Send Button 5 Image
@@ -200,8 +198,8 @@ ${metadata.desc}
      * @param {*} options
      * @returns
      */
-    ichi.send5ButImg = async (jid , text = '' , footer = '', img, but = [], options = {}) =>{
-        let message = await prepareWAMessageMedia({ image: img }, { upload: ichi.waUploadToServer })
+    arus.send5ButImg = async (jid , text = '' , footer = '', img, but = [], options = {}) =>{
+        let message = await prepareWAMessageMedia({ image: img }, { upload: arus.waUploadToServer })
         var template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
         templateMessage: {
         hydratedTemplate: {
@@ -212,7 +210,7 @@ ${metadata.desc}
             }
             }
             }), options)
-            ichi.relayMessage(jid, template.message, { messageId: template.key.id })
+            arus.relayMessage(jid, template.message, { messageId: template.key.id })
     }
 
     /**
@@ -224,7 +222,7 @@ ${metadata.desc}
      * @param {*} quoted 
      * @param {*} options 
      */
-    ichi.sendButtonText = (jid, buttons = [], text, footer, quoted = '', options = {}) => {
+    arus.sendButtonText = (jid, buttons = [], text, footer, quoted = '', options = {}) => {
         let buttonMessage = {
             text,
             footer,
@@ -232,7 +230,7 @@ ${metadata.desc}
             headerType: 2,
             ...options
         }
-        ichi.sendMessage(jid, buttonMessage, { quoted, ...options })
+        arus.sendMessage(jid, buttonMessage, { quoted, ...options })
     }
     
     /**
@@ -243,7 +241,7 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.sendText = (jid, text, quoted = '', options) => ichi.sendMessage(jid, { text: text, ...options }, { quoted })
+    arus.sendText = (jid, text, quoted = '', options) => arus.sendMessage(jid, { text: text, ...options }, { quoted })
 
     /**
      * 
@@ -254,9 +252,9 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.sendImage = async (jid, path, caption = '', quoted = '', options) => {
+    arus.sendImage = async (jid, path, caption = '', quoted = '', options) => {
 	let buffer = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
-        return await ichi.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted })
+        return await arus.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted })
     }
 
     /**
@@ -268,9 +266,9 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.sendVideo = async (jid, path, caption = '', quoted = '', gif = false, options) => {
+    arus.sendVideo = async (jid, path, caption = '', quoted = '', gif = false, options) => {
         let buffer = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
-        return await ichi.sendMessage(jid, { video: buffer, caption: caption, gifPlayback: gif, ...options }, { quoted })
+        return await arus.sendMessage(jid, { video: buffer, caption: caption, gifPlayback: gif, ...options }, { quoted })
     }
 
     /**
@@ -282,9 +280,9 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.sendAudio = async (jid, path, quoted = '', ptt = false, options) => {
+    arus.sendAudio = async (jid, path, quoted = '', ptt = false, options) => {
         let buffer = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
-        return await ichi.sendMessage(jid, { audio: buffer, ptt: ptt, ...options }, { quoted })
+        return await arus.sendMessage(jid, { audio: buffer, ptt: ptt, ...options }, { quoted })
     }
 
     /**
@@ -295,7 +293,7 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.sendTextWithMentions = async (jid, text, quoted, options = {}) => ichi.sendMessage(jid, { text: text, contextInfo: { mentionedJid: [...text.matchAll(/@(\d{0,16})/g)].map(v => v[1] + '@s.whatsapp.net') }, ...options }, { quoted })
+    arus.sendTextWithMentions = async (jid, text, quoted, options = {}) => arus.sendMessage(jid, { text: text, contextInfo: { mentionedJid: [...text.matchAll(/@(\d{0,16})/g)].map(v => v[1] + '@s.whatsapp.net') }, ...options }, { quoted })
 
     /**
      * 
@@ -305,7 +303,7 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+    arus.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
         let buffer
         if (options && (options.packname || options.author)) {
@@ -314,7 +312,7 @@ ${metadata.desc}
             buffer = await imageToWebp(buff)
         }
 
-        await ichi.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
+        await arus.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
         return buffer
     }
 
@@ -326,7 +324,7 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
+    arus.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
         let buffer
         if (options && (options.packname || options.author)) {
@@ -335,7 +333,7 @@ ${metadata.desc}
             buffer = await videoToWebp(buff)
         }
 
-        await ichi.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
+        await arus.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
         return buffer
     }
 	
@@ -346,7 +344,7 @@ ${metadata.desc}
      * @param {*} attachExtension 
      * @returns 
      */
-    ichi.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+    arus.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
         let quoted = message.msg ? message.msg : message
         let mime = (message.msg || message).mimetype || ''
         let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0]
@@ -362,7 +360,7 @@ ${metadata.desc}
         return trueFileName
     }
 
-    ichi.downloadMediaMessage = async (message) => {
+    arus.downloadMediaMessage = async (message) => {
         let mime = (message.msg || message).mimetype || ''
         let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0]
         const stream = await downloadContentFromMessage(message, messageType)
@@ -384,8 +382,8 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.sendMedia = async (jid, path, fileName = '', caption = '', quoted = '', options = {}) => {
-        let types = await ichi.getFile(path, true)
+    arus.sendMedia = async (jid, path, fileName = '', caption = '', quoted = '', options = {}) => {
+        let types = await arus.getFile(path, true)
            let { mime, ext, res, data, filename } = types
            if (res && res.status !== 200 || file.length <= 65536) {
                try { throw { json: JSON.parse(file.toString()) } }
@@ -405,7 +403,7 @@ ${metadata.desc}
        else if (/video/.test(mime)) type = 'video'
        else if (/audio/.test(mime)) type = 'audio'
        else type = 'document'
-       await ichi.sendMessage(jid, { [type]: { url: pathFile }, caption, mimetype, fileName, ...options }, { quoted, ...options })
+       await arus.sendMessage(jid, { [type]: { url: pathFile }, caption, mimetype, fileName, ...options }, { quoted, ...options })
        return fs.promises.unlink(pathFile)
        }
 
@@ -417,7 +415,7 @@ ${metadata.desc}
      * @param {*} options 
      * @returns 
      */
-    ichi.copyNForward = async (jid, message, forceForward = false, options = {}) => {
+    arus.copyNForward = async (jid, message, forceForward = false, options = {}) => {
         let vtype
 		if (options.readViewOnce) {
 			message.message = message.message && message.message.ephemeralMessage && message.message.ephemeralMessage.message ? message.message.ephemeralMessage.message : (message.message || undefined)
@@ -448,11 +446,11 @@ ${metadata.desc}
                 }
             } : {})
         } : {})
-        await ichi.relayMessage(jid, waMessage.message, { messageId:  waMessage.key.id })
+        await arus.relayMessage(jid, waMessage.message, { messageId:  waMessage.key.id })
         return waMessage
     }
 
-    ichi.cMod = (jid, copy, text = '', sender = ichi.user.id, options = {}) => {
+    arus.cMod = (jid, copy, text = '', sender = arus.user.id, options = {}) => {
         //let copy = message.toJSON()
 		let mtype = Object.keys(copy.message)[0]
 		let isEphemeral = mtype === 'ephemeralMessage'
@@ -473,7 +471,7 @@ ${metadata.desc}
 		if (copy.key.remoteJid.includes('@s.whatsapp.net')) sender = sender || copy.key.remoteJid
 		else if (copy.key.remoteJid.includes('@broadcast')) sender = sender || copy.key.remoteJid
 		copy.key.remoteJid = jid
-		copy.key.fromMe = sender === ichi.user.id
+		copy.key.fromMe = sender === arus.user.id
 
         return proto.WebMessageInfo.fromObject(copy)
     }
@@ -484,7 +482,7 @@ ${metadata.desc}
      * @param {*} path 
      * @returns 
      */
-    ichi.getFile = async (PATH, save) => {
+    arus.getFile = async (PATH, save) => {
         let res
         let data = Buffer.isBuffer(PATH) ? PATH : /^data:.*?\/.*?;base64,/i.test(PATH) ? Buffer.from(PATH.split`,`[1], 'base64') : /^https?:\/\//.test(PATH) ? await (res = await getBuffer(PATH)) : fs.existsSync(PATH) ? (filename = PATH, fs.readFileSync(PATH)) : typeof PATH === 'string' ? PATH : Buffer.alloc(0)
         //if (!Buffer.isBuffer(data)) throw new TypeError('Result is not a buffer')
@@ -504,10 +502,10 @@ ${metadata.desc}
 
     }
 
-    return ichi
+    return arus
 }
 
-startIchika()
+startArus()
 
 
 let file = require.resolve(__filename)
