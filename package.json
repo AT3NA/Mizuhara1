@@ -1,23 +1,26 @@
 {
-  "name": "hisoka-morou",
-  "version": "1.2.3",
-  "description": "WhatsApp Using Lib Baileys Multi Device",
+  "name": "mizuhara",
+  "version": "1.0.0",
+  "description": "Anime themed full fledged multi device whatsapp bot with cool features",
   "main": "heart.js",
   "type": "commonjs",
   "scripts": {
     "start": "node heart.js"
   },
   "keywords": [
-    "termux",
+    "bot",
     "whatsapp",
-    "2021",
+    "whatsapp-stickers",
+    "whatsapp-bot",
+    "whatsapp-sticker-bot",
+    "whatsapp",
+    "2022",
     "wabase-md",
     "base",
-    "baileys-md",
-    "bot"
+    "baileys-md"
   ],
-  "author": "Pratyush.",
-  "license": "MIT",
+  "author": "Arus-Bots & Death",
+  "license": "AGPL-3.0",
   "dependencies": {
     "@adiwajshing/baileys": "^4.0.1",
     "@adiwajshing/keyed-db": "^0.2.4",
