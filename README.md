@@ -1,4 +1,3 @@
-
 <div align="center">
     <img
         src="https://readme-typing-svg.herokuapp.com?font=Supermercado+One&size=30&duration=4997&color=B8212C&background=FF673200&center=true&vCenter=true&lines=HI+I+AM+MIZUHARA;A+WHATSAPP+BOT+ON+BAILEYS+MULTI-DEVICE"
@@ -10,8 +9,10 @@
 <div align="center">
 <a href="https://c.tenor.com/G1jVjFnK_64AAAAC/chizuru-mizuhara.gif"><img src="https://c.tenor.com/G1jVjFnK_64AAAAC/chizuru-mizuhara.gif" alt="mizuhara" border="0"></a>
 
-# **MIZUHARA** 
-> **ANIME THEMED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES**
+# MIZUHARA 
+> **ANIME THEMED FULL FLEDGED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES**
+
+[![CodeFactor](https://www.codefactor.io/repository/github/arus-bots/mizuhara/badge)](https://www.codefactor.io/repository/github/arus-bots/mizuhara)
 
 </p>
 <p align="center">
@@ -44,16 +45,21 @@
 > A simple and easy-to-use WhatsApp bot project with anime features based on Multi-Device Baileys and written in JavaScript
 
 ## 💙 MIZUHARA 💙
-> This is a open source project by the TEAM ARUS. After forking don't do any change. If you do we will sue you for sure. If you wanna do any changes click the following Whatsapp icons and join our groups and contact the OWNER or moderators
-<a href="https://wa.me/918231033230?text=Hi%20I%20Am%20From%20GitHub%20☺️">
-    <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
-  </a>&nbsp;&nbsp;
+> This is a open source project by the TEAM ARUS. After forking don't do any change. If you do we will sue you for sure. If you wanna do any changes click the following Whatsapp icons and join our groups and contact the [Owner](https://wa.me/918231033230?text=Hi%20I%20Am%20From%20GitHub%20☺️) or moderators
 
 ## Requirements
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
 * [FFmpeg](https://ffmpeg.org/download.html)
 
+## DEPLOYMENT
+>For now you guys can only deploy on pc by following the installation process given below.
+
+## Heroku (under development)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+## Termux
+> We are very sorry but TERMUX isn't supported right now we are working on alternatives.
 
 ## Clone this project
 ```bash
@@ -78,6 +84,9 @@ To keep it on forever
 ## HELP
 > Please give this repo a ⭐ if you liked it.
 
+## PLANS
+> Hi it's Team-Arus here we are planning for more updates and there will be frequent updates until the next 2 weeks so make a fork of the repo and keep yourself updated.
+
 ## CONTRIBUTE
 
 > Feel free to open issues regarding any problems or
@@ -86,16 +95,19 @@ To keep it on forever
     <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
   </a>&nbsp;&nbsp;
 
-  
+## 📄 License
 
-# Thanks to
+Distributed under the GNU AFFERO GENERAL PUBLIC License. See [LICENSE](/LICENSE)
+for more information.
+
+# Thanks To
 <a href="https://github.com/pratyush4932"><img src="https://github.com/pratyush4932.png?size=100" width="100" height="100"></a> | [![AMRIT](https://github.com/Amrit9304.png?size=100)](https://github.com/Amrit9304) 
 ---|---
-[Pratyush](https://github.com/pratyush4932)  | [Amrit](https://github.com/Amrit9304)
+[Pratyush](https://github.com/pratyush4932)  | [Amrit/Aizen](https://github.com/Amrit9304)
 Owner of Mizuhara | Contributor |
-<a href="https://github.com/iamherok"><img src="https://github.com/iamherok.png?size=100" width="100" height="100"></a> | [![Adiwajshing](https://github.com/adiwajshing.png?size=100)](https://github.com/adiwajshing) 
-[Tomioka](https://github.com/iamherok)  | [Adiwajshing](https://github.com/adiwajshing)
-Contributor | Owner of Baileys |
-<a href="https://github.com/Death-132"><img src="https://github.com/Death-132.png?size=100" width="100" height="100"></a>
-[Death](https://github.com/Death-132)
-Useless worker 
+<a href="https://github.com/iamherok"><img src="https://github.com/iamherok.png?size=100" width="100" height="100"></a> | [![Arin](https://github.com/Arin1601.png?size=100)](https://github.com/Arin1601) 
+[Tomioka](https://github.com/iamherok)  | [Arin](https://github.com/Arin1601)
+Contributor | Contributor |
+<a href="https://github.com/Death-132"><img src="https://github.com/Death-132.png?size=100" width="100" height="100"></a> | [![Adiwajshing](https://github.com/adiwajshing.png?size=100)](https://github.com/adiwajshing)
+[Death](https://github.com/Death-132)   | [Adiwajshing](https://github.com/adiwajshing)
+Useless worker | Owner Of Baileys |
