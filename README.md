@@ -10,7 +10,8 @@
 <div align="center">
 <a href="https://c.tenor.com/G1jVjFnK_64AAAAC/chizuru-mizuhara.gif"><img src="https://c.tenor.com/G1jVjFnK_64AAAAC/chizuru-mizuhara.gif" alt="mizuhara" border="0"></a>
 
-# **MIZUHARA : ANIME THEMED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES**
+# **MIZUHARA** 
+> **ANIME THEMED MULTI DEVICE WHATSAPP BOT WITH COOL FEATURES**
 
 </p>
 <p align="center">
