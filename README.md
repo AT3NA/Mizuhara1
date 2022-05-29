@@ -56,7 +56,7 @@
 >For now you guys can only deploy on pc by following the installation process given below.
 
 ## Heroku (under development)
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/at3na/Mizuhara1/)
 
 ## Termux
 > We are very sorry but TERMUX isn't supported right now we are working on alternatives.
